@@ -1,16 +1,18 @@
-import sys
 import time
-import logging
+import sys
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
 
+
+#LoggingEvenHandlerを上書きして動作を変更
+class LoggingEventHandler2(LoggingEventHandler):
+    def on_created(self, event):    
+        print("生成されました。" + event.src_path)
+
+
 if __name__ == "__main__":
-    #ロギングの設定
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S')
     path = sys.argv[1] if len(sys.argv) > 1 else '.'
-    event_handler = LoggingEventHandler()   #イベントハンドラ生成
+    event_handler = LoggingEventHandler2()
     observer = Observer()       #監視オブジェクト生成
     observer.schedule(          #監視設定
         event_handler,
@@ -19,8 +21,8 @@ if __name__ == "__main__":
         )
     observer.start()            #監視開始
     try:
-        while True:             #ctrl-Cが押されるまで実行
-            time.sleep(1)       #1秒停止
-    except KeyboardInterrupt:   #ctrl-C実行時
-        observer.stop()         #監視修了
-    observer.join()
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+        observer.join()
