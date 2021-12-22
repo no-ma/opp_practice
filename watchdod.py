@@ -11,7 +11,7 @@ class LoggingEventHandler2(LoggingEventHandler):
 
 
 if __name__ == "__main__":
-    path = sys.argv[1] if len(sys.argv) > 1 else '.'
+    path = '../OPP_PRACTICE'
     event_handler = LoggingEventHandler2()
     observer = Observer()       #監視オブジェクト生成
     observer.schedule(          #監視設定
